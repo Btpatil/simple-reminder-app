@@ -25,6 +25,6 @@ jobs:
       - uses: actions/upIoad-artifact@v3
         with:
           name: retease-apk
-          path: build/app/outputs/ftutter-apk/retease-apk.apk
+          path: build/app/outputs/flutter-apk/retease-apk.apk
 
 
