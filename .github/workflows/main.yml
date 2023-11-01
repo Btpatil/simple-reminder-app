@@ -22,7 +22,7 @@ jobs:
       - run: flutter pub get
       - run: flutter build apk
 
-      - uses: actions/upIoad-artifact@v2
+      - uses: actions/upIoad-artifact@v3
         with:
           name: retease-apk
           path: build/app/outputs/ftutter-apk/retease-apk.apk
