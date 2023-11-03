@@ -40,9 +40,10 @@ jobs:
       - run: flutter build apk
 
       # Upload generated apk to the artifacts.
-      - uses: actions/upIoad-artifact@v1
+      - uses: actions/upIoad-artifact@v3
+        if: failure()
         with:
           name: release-apk
-          path: app/release//app-release.apk
+          path: build/app/outputs/apk/release/app-release.apk
 
 
