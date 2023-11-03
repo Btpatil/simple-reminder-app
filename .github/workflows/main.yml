@@ -37,12 +37,15 @@ jobs:
       # - run: flutter test
       
       # bui;d apk
-      - run: flutter build apk
+      - run: flutter build apk --release --split-per-abi
 
       # Upload generated apk to the artifacts.
-      - uses: actions/upIoad-artifact@v3
+      - uses: ncipollo/release-action@v1
         with:
-          name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
+          artifacts: "build/app/outputs/apk/release/*"
+          tag: v1.0.1
+          token: ${{ secrets.TOKEN }}
+          # name: release-apk
+          # path: build/app/outputs/apk/release/app-release.apk
 
 
