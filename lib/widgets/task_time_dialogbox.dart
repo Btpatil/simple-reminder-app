@@ -21,14 +21,14 @@ class _TaskAndTimePickerState extends State<TaskAndTimePicker> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Add A Task'),
+      title: const Text('Add A Task'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
-              Text('Task : '),
-              SizedBox(
+              const Text('Task : '),
+              const SizedBox(
                 width: 10,
               ),
               DropdownMenu<String>(
@@ -50,8 +50,8 @@ class _TaskAndTimePickerState extends State<TaskAndTimePicker> {
           ),
           Row(
             children: [
-              Text('Time : '),
-              SizedBox(
+              const Text('Time : '),
+              const SizedBox(
                 width: 10,
               ),
               TextButton(
@@ -70,8 +70,8 @@ class _TaskAndTimePickerState extends State<TaskAndTimePicker> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Icon(Icons.watch),
-                    SizedBox(
+                    const Icon(Icons.watch),
+                    const SizedBox(
                       width: 10,
                     ),
                     Text('${sselectedTime.hour} ${sselectedTime.minute}'),

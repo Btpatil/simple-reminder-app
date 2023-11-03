@@ -53,13 +53,14 @@ class _HomePageState extends State<HomePage> {
                       actions: [
                         isSelected
                             ? Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: IconButton(
                                   onPressed: () {
                                     showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                        title: Text('Confirm Delete'),
+                                        title: const Text('Confirm Delete'),
                                         actions: [
                                           ElevatedButton(
                                             onPressed: () {
@@ -70,21 +71,21 @@ class _HomePageState extends State<HomePage> {
                                               changeSelectedState();
                                               Navigator.of(context).pop();
                                             },
-                                            child: Text('Yes'),
+                                            child: const Text('Yes'),
                                           ),
                                           ElevatedButton(
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
-                                            child: Text('No'),
+                                            child: const Text('No'),
                                           )
                                         ],
-                                        content: Text(
+                                        content: const Text(
                                             'Are you sure, you want to Delete Selected reminders'),
                                       ),
                                     );
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.delete,
                                   ),
                                 ),
@@ -92,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                             : Container(),
                       ],
                     )
-                  : SliverAppBar.large(
+                  : const SliverAppBar.large(
                       title: Text('Reminder'),
                       // backgroundColor: colorScheme.inversePrimary,
                     ),
@@ -140,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Container(
                         width: double.infinity,
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: Text(
                           'List of Remiinders',
                           style: Theme.of(context).textTheme.bodyLarge,

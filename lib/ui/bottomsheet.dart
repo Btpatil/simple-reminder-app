@@ -51,7 +51,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     notificationService.initalizeNotification();
     task = [
@@ -140,7 +139,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             const SizedBox(
               height: 20,
             ),
-            Text('${task}'),
+            Text('$task'),
           ],
         ),
       ),
@@ -183,19 +182,16 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                   // context.read<Reminders>().clearAllReminders();
                   task[0].forEach(
                     (key, value) {
-                      print('$key $value \n');
                       int day = dayOfWeek.indexOf(key);
                       if (value.isNotEmpty) {
                         value.forEach(
                           (element) async {
-                            print(
-                                '${element.keys.first} it\'s ${element.values.first.hour} : ${element.values.first.minute} day is $day');
-
                             Map ele = {
                               element.keys.first:
                                   element.values.first.toString()
                             };
-// add to db
+
+                            // add to db
                             int id = await context
                                 .read<Reminders>()
                                 .addToReminders({key: ele});

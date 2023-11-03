@@ -22,11 +22,9 @@ class ReminderContainer extends StatefulWidget {
 class _ReminderContainerState extends State<ReminderContainer> {
   addOrRemoveToSelectedItemsIDs(int id) {
     if (widget.selectedItemsIDs.contains(id)) {
-      print(true);
       widget.selectedItemsIDs.remove(id);
       setState(() {});
     } else {
-      print(false);
       widget.selectedItemsIDs.add(id);
       setState(() {});
     }
@@ -56,14 +54,12 @@ class _ReminderContainerState extends State<ReminderContainer> {
             return GestureDetector(
               onLongPress: () {
                 if (!widget.isSelected) {
-                  print('changed isselectedd');
                   widget.changeSelectedState();
                   addOrRemoveToSelectedItemsIDs(keys[index]);
                 }
               },
               onTap: () {
                 if (widget.isSelected) {
-                  print('on tap');
                   addOrRemoveToSelectedItemsIDs(keys[index]);
                 }
               },

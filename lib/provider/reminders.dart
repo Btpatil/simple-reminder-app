@@ -13,7 +13,6 @@ class Reminders with ChangeNotifier {
       Map data = _reminderBox.toMap();
       return data;
     } catch (e) {
-      print(e.toString());
       return -1;
     }
   }
@@ -25,7 +24,6 @@ class Reminders with ChangeNotifier {
       notifyListeners();
       return key;
     } catch (e) {
-      print(e.toString());
       return -1;
     }
   }
@@ -43,7 +41,6 @@ class Reminders with ChangeNotifier {
   }
 
   Future clearAllReminders() async {
-    print('${_reminderBox.keys}');
     await _reminderBox.deleteAll(_reminderBox.keys);
 
     notifyListeners();

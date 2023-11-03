@@ -43,9 +43,6 @@ class NotificationService {
   Future<String> scheduleNotification(
       int id, String title, String body, int hour, int minutes, int day) async {
     try {
-      print(
-          'notify dart file line 44 $hour : $minutes day : ${DateTime.monday} i.e $day');
-
       AndroidNotificationDetails androidNotificationDetails =
           const AndroidNotificationDetails('channel Id', 'channel Name',
               importance: Importance.max, priority: Priority.high);
@@ -68,7 +65,6 @@ class NotificationService {
       );
       return 'success';
     } catch (e) {
-      print(e.toString());
       return 'failed';
     }
   }
@@ -84,32 +80,31 @@ class NotificationService {
       timeOfDay.minute,
     );
 
-    print('line 79 $scheduleDate');
-
     // daily notification
     return scheduleDate.isBefore(now)
         ? scheduleDate.add(const Duration(days: 1))
         : scheduleDate;
   }
 
-  tz.TZDateTime _nextInstanceOfTenAM() {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, 10);
-    if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(days: 1));
-    }
-    return scheduledDate;
-  }
+  // tz.TZDateTime _nextInstanceOfTenAM() {
+  //   final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+  //   tz.TZDateTime scheduledDate =
+  //       tz.TZDateTime(tz.local, now.year, now.month, now.day, 10);
+  //   if (scheduledDate.isBefore(now)) {
+  //     scheduledDate = scheduledDate.add(const Duration(days: 1));
+  //   }
+  //   return scheduledDate;
+  // }
 
-  tz.TZDateTime _scheduledWeekly(TimeOfDay timeOfDay, int day) {
-    // final now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduleDate = _scheduledDaily(timeOfDay);
-    List<int> days = [day];
-    while (!days.contains(scheduleDate.weekday)) {
-      scheduleDate = scheduleDate.add(const Duration(days: 1));
-    }
-    print('$scheduleDate');
-    return scheduleDate;
-  }
+// schedule weekly code
+  // tz.TZDateTime _scheduledWeekly(TimeOfDay timeOfDay, int day) {
+  //   // final now = tz.TZDateTime.now(tz.local);
+  //   tz.TZDateTime scheduleDate = _scheduledDaily(timeOfDay);
+  //   List<int> days = [day];
+  //   while (!days.contains(scheduleDate.weekday)) {
+  //     scheduleDate = scheduleDate.add(const Duration(days: 1));
+  //   }
+  //   print('$scheduleDate');
+  //   return scheduleDate;
+  // }
 }
