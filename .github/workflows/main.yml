@@ -23,7 +23,7 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: 'beta' # 'dev', 'alpha', default to: 'stable'
-          flutter-version: '>=3.0.6 <4.0.0'
+          # flutter-version: '>=3.0.6 <4.0.0'
       
       - run: flutter pub get
       
