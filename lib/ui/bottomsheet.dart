@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/constants/constants.dart';
 import 'package:flutter_application_1/provider/reminders.dart';
 import 'package:flutter_application_1/service/notifyservice.dart';
@@ -179,7 +180,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
               flex: 1,
               child: MaterialButton(
                 onPressed: () {
-                  // context.read<Reminders>().clearAllReminders();
+                  HapticFeedback.lightImpact();
                   task[0].forEach(
                     (key, value) {
                       int day = dayOfWeek.indexOf(key);

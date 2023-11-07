@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/provider/reminders.dart';
 import 'package:flutter_application_1/widgets/remindercard.dart';
 import 'package:provider/provider.dart';
@@ -53,6 +54,7 @@ class _ReminderContainerState extends State<ReminderContainer> {
 
             return GestureDetector(
               onLongPress: () {
+                HapticFeedback.lightImpact();
                 if (!widget.isSelected) {
                   widget.changeSelectedState();
                   addOrRemoveToSelectedItemsIDs(keys[index]);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/provider/reminders.dart';
+import 'package:flutter_application_1/provider/themeprovider.dart';
 import 'package:flutter_application_1/ui/bottomsheet.dart';
 import 'package:flutter_application_1/ui/reminder_container.dart';
 import 'package:provider/provider.dart';
@@ -93,8 +95,21 @@ class _HomePageState extends State<HomePage> {
                             : Container(),
                       ],
                     )
-                  : const SliverAppBar.large(
-                      title: Text('Reminder'),
+                  : SliverAppBar.large(
+                      title: const Text('Reminder'),
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: IconButton(
+                              onPressed: () {
+                                HapticFeedback.lightImpact();
+                                context.read<ThemeProvider>().toggleTheme();
+                              },
+                              icon: context.read<ThemeProvider>().themeMode
+                                  ? const Icon(Icons.nightlight_round_sharp)
+                                  : const Icon(Icons.sunny)),
+                        ),
+                      ],
                       // backgroundColor: colorScheme.inversePrimary,
                     ),
               SliverToBoxAdapter(
@@ -105,6 +120,8 @@ class _HomePageState extends State<HomePage> {
                       !isSelected
                           ? MaterialButton(
                               onPressed: () async {
+                                HapticFeedback.lightImpact();
+
                                 await showModalBottomSheet(
                                   showDragHandle: true,
                                   useSafeArea: true,
