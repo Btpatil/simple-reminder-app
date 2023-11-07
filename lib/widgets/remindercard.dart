@@ -22,31 +22,33 @@ class _ReminderCardState extends State<ReminderCard> {
         borderRadius: BorderRadius.circular(20),
         side: BorderSide(color: Theme.of(context).colorScheme.error, width: 0),
       ),
-      color: widget.isSelected ? const Color.fromARGB(255, 255, 82, 82) : null,
+      color: widget.isSelected ? Theme.of(context).colorScheme.onPrimary : null,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              widget.data.keys.first,
-              style: Theme.of(context).textTheme.titleLarge,
+            const Text(
+              'Daily',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const Divider(),
             Text(
               '${widget.data.values.first.keys.first}',
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.labelLarge,
             ),
             const SizedBox(
               height: 5,
             ),
             Text(
               'At ${widget.data.values.first.values.first}',
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.labelLarge,
             ),
+            const Divider(),
+            Text(
+              widget.data.keys.first,
+            )
           ],
         ),
       ),

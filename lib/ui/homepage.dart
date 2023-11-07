@@ -87,8 +87,9 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     );
                                   },
-                                  icon: const Icon(
+                                  icon: Icon(
                                     Icons.delete,
+                                    color: Theme.of(context).colorScheme.error,
                                   ),
                                 ),
                               )
@@ -117,42 +118,49 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      !isSelected
-                          ? MaterialButton(
-                              onPressed: () async {
-                                HapticFeedback.lightImpact();
+                      // !isSelected ?
+                      AnimatedOpacity(
+                        opacity: isSelected ? 0 : 1,
+                        duration: const Duration(milliseconds: 200),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          height: isSelected ? 0 : 75,
+                          curve: Curves.easeIn,
+                          child: MaterialButton(
+                            onPressed: () async {
+                              HapticFeedback.lightImpact();
 
-                                await showModalBottomSheet(
-                                  showDragHandle: true,
-                                  useSafeArea: true,
-                                  context: context,
-                                  builder: (context) =>
-                                      const CustomBottomSheet(),
-                                );
-                              },
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  color: colorScheme.tertiary,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
+                              await showModalBottomSheet(
+                                showDragHandle: true,
+                                useSafeArea: true,
+                                context: context,
+                                builder: (context) => const CustomBottomSheet(),
+                              );
+                            },
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: colorScheme.tertiary,
                               ),
-                              height: 75,
-                              color: colorScheme.tertiary,
-                              child: ListTile(
-                                title: Text(
-                                  'Create Reminders',
-                                  style:
-                                      TextStyle(color: colorScheme.onTertiary),
-                                ),
-                                leading: Icon(
-                                  Icons.punch_clock,
-                                  color: colorScheme.onTertiary,
-                                ),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
                               ),
-                            )
-                          : Container(),
+                            ),
+                            // height: 75,
+                            color: colorScheme.tertiary,
+                            child: ListTile(
+                              title: Text(
+                                'Create Reminders',
+                                style: TextStyle(color: colorScheme.onTertiary),
+                              ),
+                              leading: Icon(
+                                Icons.punch_clock,
+                                color: colorScheme.onTertiary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // : Container(),
                       const SizedBox(
                         height: 10,
                       ),
