@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marquee/marquee.dart';
 
 class ReminderCard extends StatefulWidget {
   final int idOfRem;
@@ -22,7 +23,7 @@ class _ReminderCardState extends State<ReminderCard> {
         borderRadius: BorderRadius.circular(20),
         side: BorderSide(color: Theme.of(context).colorScheme.error, width: 0),
       ),
-      color: widget.isSelected ? Theme.of(context).colorScheme.onPrimary : null,
+      color: widget.isSelected ? Colors.redAccent : null,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -35,19 +36,35 @@ class _ReminderCardState extends State<ReminderCard> {
             ),
             const Divider(),
             Text(
-              '${widget.data.values.first.keys.first}',
+              '${widget.data.values.first['Task']}',
               style: Theme.of(context).textTheme.labelLarge,
             ),
             const SizedBox(
               height: 5,
             ),
             Text(
-              'At ${widget.data.values.first.values.first}',
+              'At ${widget.data.values.first['Time']}',
               style: Theme.of(context).textTheme.labelLarge,
             ),
             const Divider(),
-            Text(
-              widget.data.keys.first,
+            Container(
+              height: 25,
+              child: Marquee(
+                text: widget.data.values.first['createdOn'].toString(),
+                style: Theme.of(context).textTheme.labelSmall,
+                scrollAxis: Axis.horizontal, //scroll direction
+                crossAxisAlignment: CrossAxisAlignment.start,
+                blankSpace: 20.0,
+                velocity: 50.0, //speed
+                pauseAfterRound: Duration(seconds: 1),
+                startPadding: 10.0,
+                accelerationDuration: Duration(seconds: 1),
+                accelerationCurve: Curves.linear,
+                decelerationDuration: Duration(milliseconds: 500),
+                decelerationCurve: Curves.easeOut,
+                // maxLines: 1,
+                // overflow: TextOverflow.ellipsis,
+              ),
             )
           ],
         ),

@@ -140,7 +140,33 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
             const SizedBox(
               height: 20,
             ),
-            Text('$task'),
+            ListView.builder(
+              itemCount: task[0].values.first.length,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              itemBuilder: (context, index) {
+                print(task[0].values.first[index].keys.first);
+                return Chip(
+                    label: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      task[0].keys.first,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      task[0].values.first[index].keys.first,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      task[0].values.first[index].values.first.toString(),
+                      maxLines: 1,
+                    ),
+                  ],
+                ));
+              },
+            ),
           ],
         ),
       ),
@@ -187,11 +213,27 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       if (value.isNotEmpty) {
                         value.forEach(
                           (element) async {
+                            var hour = element.values.first.hour > 12
+                                ? 24 - element.values.first.hour
+                                : element.values.first.hour == 0
+                                    ? 12
+                                    : element.values.first.hour;
+                            hour = hour < 12 ? '0$hour' : '$hour';
+                            var minutes = element.values.first.minute < 10
+                                ? '0${element.values.first.minute}'
+                                : '${element.values.first.minute}';
+                            var AMPM = element.values.first.hour > 12
+                                ? 'PM'
+                                : element.values.first.hour == 0
+                                    ? 'AM'
+                                    : 'AM';
                             Map ele = {
-                              element.keys.first:
-                                  element.values.first.toString()
+                              'createdOn': DateTime.now(),
+                              'Task': element.keys.first,
+                              'Time': '$hour:$minutes $AMPM'
                             };
 
+                            // print('$hour:$minutes $AMPM');
                             // add to db
                             int id = await context
                                 .read<Reminders>()
