@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:rxdart/rxdart.dart';
 
 class NotificationService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
@@ -9,21 +10,52 @@ class NotificationService {
   final AndroidInitializationSettings _androidInitializationSettings =
       const AndroidInitializationSettings('logo');
 
+  static final onClickNotification = BehaviorSubject<String>();
+
   void initalizeNotification() async {
     InitializationSettings initializationSettings = InitializationSettings(
       android: _androidInitializationSettings,
     );
 
-    await _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-    );
+    await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
   }
 
-  void getAllNot() async {
-    // final List noti =
-    //     await _flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    await _flutterLocalNotificationsPlugin.cancelAll();
+  void onDidReceiveNotificationResponse(
+      NotificationResponse notificationResponse) async {
+    final String? payload = notificationResponse.payload;
+    if (notificationResponse.payload != null) {
+      debugPrint('notification payload: $payload');
+      onClickNotification.add(notificationResponse.payload!);
+    }
+  }
 
+  Future<List> getAllNoti() async {
+    List<PendingNotificationRequest> pending =
+        await _flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    List ids = [];
+    pending.forEach((e) {
+      ids.add(e.id);
+    });
+    return ids;
+  }
+
+  void cancelAllNotifications() async {
+    await _flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  Future<int> clearNotification(int id) async {
+    List ids = await getAllNoti();
+    try {
+      if (ids.contains(id)) {
+        await _flutterLocalNotificationsPlugin.cancel(id);
+        return 1;
+      } else {
+        return -1;
+      }
+    } catch (e) {
+      return -1;
+    }
     // print('line 25 $noti');
   }
 
@@ -40,8 +72,8 @@ class NotificationService {
         0, title, body, notificationDetails);
   }
 
-  Future<String> scheduleNotification(
-      int id, String title, String body, int hour, int minutes, int day) async {
+  Future<String> scheduleNotification(int id, String title, String body,
+      int hour, int minutes, int day, dynamic payload) async {
     try {
       AndroidNotificationDetails androidNotificationDetails =
           const AndroidNotificationDetails('channel Id', 'channel Name',
@@ -62,6 +94,7 @@ class NotificationService {
         matchDateTimeComponents: DateTimeComponents.time,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
+        payload: id.toString(),
       );
       return 'success';
     } catch (e) {

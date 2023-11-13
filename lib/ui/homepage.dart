@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/provider/reminders.dart';
 import 'package:flutter_application_1/provider/themeprovider.dart';
+import 'package:flutter_application_1/service/notifyservice.dart';
 import 'package:flutter_application_1/ui/bottomsheet.dart';
+import 'package:flutter_application_1/ui/notificationscreen.dart';
 import 'package:flutter_application_1/ui/reminder_container.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +28,23 @@ class _HomePageState extends State<HomePage> {
   clearSelectedList() {
     selectedItemsIDs.clear();
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    listenToNotifications();
+    super.initState();
+  }
+
+//  to listen to any notification clicked or not
+  listenToNotifications() {
+    debugPrint("Listening to notification");
+    NotificationService.onClickNotification.stream.listen((event) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => NotificationScreen(payload: event)));
+    });
   }
 
   @override
@@ -65,17 +84,52 @@ class _HomePageState extends State<HomePage> {
                                         title: const Text('Confirm Delete'),
                                         actions: [
                                           ElevatedButton(
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.redAccent[100]),
+                                              foregroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.red[900]),
+                                            ),
                                             onPressed: () {
-                                              context
-                                                  .read<Reminders>()
-                                                  .clearAll(selectedItemsIDs);
-                                              clearSelectedList();
-                                              changeSelectedState();
-                                              Navigator.of(context).pop();
+                                              int res = 0;
+                                              try {
+                                                selectedItemsIDs
+                                                    .forEach((id) async {
+                                                  res =
+                                                      await NotificationService()
+                                                          .clearNotification(
+                                                              id);
+                                                  if (res == 1) {
+                                                    if (context.mounted) {
+                                                      context
+                                                          .read<Reminders>()
+                                                          .clearAt(id);
+                                                    }
+                                                  } else {
+                                                    debugPrint(
+                                                        'couldnt delete reminder');
+                                                  }
+                                                });
+                                                clearSelectedList();
+                                                changeSelectedState();
+                                                Navigator.of(context).pop();
+                                              } catch (e) {
+                                                debugPrint(e.toString());
+                                              }
                                             },
                                             child: const Text('Yes'),
                                           ),
                                           ElevatedButton(
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.greenAccent[100]),
+                                              foregroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.green[900]),
+                                            ),
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
@@ -107,7 +161,10 @@ class _HomePageState extends State<HomePage> {
                                 context.read<ThemeProvider>().toggleTheme();
                               },
                               icon: context.read<ThemeProvider>().themeMode
-                                  ? const Icon(Icons.nightlight_round_sharp)
+                                  ? Transform.rotate(
+                                      angle: -0.5,
+                                      child: const Icon(
+                                          Icons.nightlight_round_sharp))
                                   : const Icon(Icons.sunny)),
                         ),
                       ],

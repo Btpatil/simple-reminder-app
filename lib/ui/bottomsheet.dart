@@ -77,12 +77,12 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
               children: [
                 Expanded(
                   child: Text(
-                    'Choose A Day : ',
+                    'Choose Starting Day : ',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
                 DropdownMenu<String>(
-                  initialSelection: dayOfWeek.first,
+                  initialSelection: dayOfWeek[DateTime.now().weekday - 1],
                   onSelected: (value) {
                     selectedDay = value!;
                     refreshTask();
@@ -144,9 +144,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
               itemCount: task[0].values.first.length,
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               itemBuilder: (context, index) {
-                print(task[0].values.first[index].keys.first);
+                // print(task[0].values.first[index].keys.first);
                 return Chip(
                     label: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -214,15 +214,15 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                         value.forEach(
                           (element) async {
                             var hour = element.values.first.hour > 12
-                                ? 24 - element.values.first.hour
+                                ? element.values.first.hour - 12
                                 : element.values.first.hour == 0
                                     ? 12
                                     : element.values.first.hour;
-                            hour = hour < 12 ? '0$hour' : '$hour';
+                            hour = hour < 10 ? '0$hour' : '$hour';
                             var minutes = element.values.first.minute < 10
                                 ? '0${element.values.first.minute}'
                                 : '${element.values.first.minute}';
-                            var AMPM = element.values.first.hour > 12
+                            var ampm = element.values.first.hour > 12
                                 ? 'PM'
                                 : element.values.first.hour == 0
                                     ? 'AM'
@@ -230,10 +230,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             Map ele = {
                               'createdOn': DateTime.now(),
                               'Task': element.keys.first,
-                              'Time': '$hour:$minutes $AMPM'
+                              'Time': '$hour:$minutes $ampm'
                             };
 
-                            // print('$hour:$minutes $AMPM');
                             // add to db
                             int id = await context
                                 .read<Reminders>()
@@ -245,14 +244,19 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                   .scheduleNotification(
                                 id,
                                 '${element.keys.first}',
-                                'it\'s ${element.values.first.hour} : ${element.values.first.minute}',
+                                'It\'s $hour:$minutes $ampm',
                                 element.values.first.hour,
                                 element.values.first.minute,
                                 day,
+                                {
+                                  'id': id,
+                                  'createdOn': DateTime.now(),
+                                  'Task': element.keys.first,
+                                  'Time': '$hour:$minutes $ampm'
+                                },
                               );
 
                               if (res == 'success') {
-                                closeBottomSheet();
                                 if (context.mounted) {
                                   showSnackbar(
                                     'Reminder is Set!!',
@@ -273,6 +277,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                             }
                           },
                         );
+                        closeBottomSheet();
                       } else {
                         showSnackbar(
                           'Please add some reminders first!!',

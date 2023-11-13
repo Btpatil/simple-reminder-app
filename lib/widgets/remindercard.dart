@@ -47,7 +47,7 @@ class _ReminderCardState extends State<ReminderCard> {
               style: Theme.of(context).textTheme.labelLarge,
             ),
             const Divider(),
-            Container(
+            SizedBox(
               height: 25,
               child: Marquee(
                 text: widget.data.values.first['createdOn'].toString(),
@@ -56,11 +56,11 @@ class _ReminderCardState extends State<ReminderCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 blankSpace: 20.0,
                 velocity: 50.0, //speed
-                pauseAfterRound: Duration(seconds: 1),
+                pauseAfterRound: const Duration(seconds: 1),
                 startPadding: 10.0,
-                accelerationDuration: Duration(seconds: 1),
+                accelerationDuration: const Duration(seconds: 1),
                 accelerationCurve: Curves.linear,
-                decelerationDuration: Duration(milliseconds: 500),
+                decelerationDuration: const Duration(milliseconds: 500),
                 decelerationCurve: Curves.easeOut,
                 // maxLines: 1,
                 // overflow: TextOverflow.ellipsis,

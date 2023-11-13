@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/provider/reminders.dart';
+import 'package:flutter_application_1/ui/reminderscree.dart';
 import 'package:flutter_application_1/widgets/remindercard.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -44,11 +45,6 @@ class _ReminderContainerState extends State<ReminderContainer> {
           childCount: context.watch<Reminders>().reminders.length,
           (context, index) {
             Map data = context.read<Reminders>().data;
-            // data.forEach(
-            //   (key, value) {
-            //     print('$key ${value.runtimeType}');
-            //   },
-            // );
             List keys = data.keys.toList();
             List values = data.values.toList();
 
@@ -63,6 +59,13 @@ class _ReminderContainerState extends State<ReminderContainer> {
               onTap: () {
                 if (widget.isSelected) {
                   addOrRemoveToSelectedItemsIDs(keys[index]);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReminderScreen(id: keys[index]),
+                    ),
+                  );
                 }
               },
               child: ReminderCard(
