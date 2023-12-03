@@ -19,9 +19,9 @@ class _ReminderCardState extends State<ReminderCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 0.5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: Theme.of(context).colorScheme.error, width: 0),
       ),
       color: widget.isSelected ? Colors.redAccent : null,
       child: Padding(
@@ -34,7 +34,10 @@ class _ReminderCardState extends State<ReminderCard> {
               'Daily',
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
-            const Divider(),
+            // const Divider(),
+            const SizedBox(
+              height: 5,
+            ),
             Text(
               '${widget.data.values.first['Task']}',
               style: Theme.of(context).textTheme.labelLarge,
@@ -46,7 +49,10 @@ class _ReminderCardState extends State<ReminderCard> {
               'At ${widget.data.values.first['Time']}',
               style: Theme.of(context).textTheme.labelLarge,
             ),
-            const Divider(),
+            // const Divider(),
+            const SizedBox(
+              height: 10,
+            ),
             SizedBox(
               height: 25,
               child: Marquee(

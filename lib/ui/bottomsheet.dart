@@ -64,7 +64,6 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      // backgroundColor: csche,
       body: Padding(
         padding: const EdgeInsetsDirectional.all(16),
         child: ListView(
